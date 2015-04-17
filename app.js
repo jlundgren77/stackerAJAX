@@ -6,6 +6,12 @@ $(document).ready( function() {
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 	});
+
+	$('.inspiration-getter').submit(function(event){
+		$('.results').html('');
+		var tag = $(this).find("input[name='answerers']").val();
+		getInspiration(tag);
+	})
 });
 
 // this function takes the question object returned by StackOverflow 
@@ -86,6 +92,27 @@ var getUnanswered = function(tags) {
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
+
+};
+
+var getInspiration = function(tag) {
+	
+	var result = $.ajax({
+		url: "http://api.stackexchange.com/2.2/tags/"+tag+"/top-answerers/month?site=stackoverflow",
+		dataType: "jsonp",
+		type: "GET",
+		})
+	.done(function(result){
+		var searchResults = showSearchResults(tag, result.items.length);
+		$('.search-results').html(searchResults);
+		console.log(result.items[0].user);
+	})
+	.fail(function(jqXHR, error, errorThrown){
+		var errorElem = showErrow(error);
+		$('.search-results').append(errorElem);
+	});
+
+	
 };
 
 
