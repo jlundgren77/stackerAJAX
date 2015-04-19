@@ -33,7 +33,27 @@
 .inspiration { 
 	margin-left: 3em;
 }
+.inspiration dl {
+	float: left;
+}
+.inspiration dt {
+	float: left;
+	clear: left;
+	font-weight: bold;
+	text-align: left;
+	margin-right: 10px;
 
+}
+
+
+.inspiration dd {
+	margin: 0 0 0 120px;
+	padding: 0 0 0.5em 0;
+}
+.search-results {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 .result {
 	border: 1px solid black;
 	padding: 5px;

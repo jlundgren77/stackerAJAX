@@ -47,7 +47,45 @@ var showQuestion = function(question) {
 	return result;
 };
 
+var showInspiration = function(data){
+	// console.log(user, score, reputation, accept, posts);
 
+	//clone result template code
+	var result = $('.templates .inspiration').clone();
+    
+
+	//set user properties
+	var userElem = result.find('.user a');
+	userElem.attr('href', data.user.link);
+	userElem.text(data.user.display_name);
+
+	//set post counts
+	var postElem = result.find('.posts');
+	postElem.text(data.post_count);
+
+	//set user score
+	var scoreElem = result.find('.score');
+	scoreElem.text(data.score);
+
+	//set accept rate 
+	var acceptElem = result.find('.accept-rate');
+	if (data.user.accept_rate === undefined){
+		acceptElem.text('None');
+	}
+	else {
+		acceptElem.text(data.user.accept_rate);
+	}
+	
+	//set reputation
+	var reputationElem = result.find('.reputation');
+
+	reputationElem.text(data.user.reputation);
+	console.log(data.user.reputation);
+
+	return result;
+
+
+};
 // this function takes the results object from StackOverflow
 // and creates info about search results to be appended to DOM
 var showSearchResults = function(query, resultNum) {
@@ -105,7 +143,13 @@ var getInspiration = function(tag) {
 	.done(function(result){
 		var searchResults = showSearchResults(tag, result.items.length);
 		$('.search-results').html(searchResults);
-		console.log(result.items[0].user);
+		$.each(result.items, function(key, item){
+			
+			var users = showInspiration(item);
+			$('.results').append(users);
+
+		})
+		
 	})
 	.fail(function(jqXHR, error, errorThrown){
 		var errorElem = showErrow(error);
